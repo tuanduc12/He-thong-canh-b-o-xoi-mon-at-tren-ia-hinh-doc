@@ -1,0 +1,12 @@
+{
+  "name": "he-thong-canh-bao-xoi-mon",
+  "version": "1.0.0",
+  "description": "Giao diện Web giám sát hệ thống cảnh báo xói mòn đất thời gian thực",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

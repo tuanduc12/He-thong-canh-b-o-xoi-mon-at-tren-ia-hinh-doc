@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống Cảnh báo Xói mòn & Sạt lở Đất - Địa hình dốc</title>
+  <meta name="description" content="Giao diện Web giám sát thời gian thực nguy cơ xói mòn và sạt lở đất trên địa hình dốc, kết nối trực tiếp với cảm biến qua cổng USB Serial của Arduino Uno.">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- HEADER: LOGO & WEB SERIAL CONNECTIVITY -->
+    <header>
+      <div class="logo-section">
+        <div class="logo-icon">
+          <i class="fas fa-mountain"></i>
+        </div>
+        <div class="logo-text">
+          <h1>HỆ THỐNG CẢNH BÁO XÓI MÒN ĐẤT</h1>
+          <p>Địa hình dốc • Giám sát thời gian thực</p>
+        </div>
+      </div>
+      
+      <div class="connection-panel">
+        <button class="btn-theme" id="btnTheme" title="Chuyển chế độ Sáng/Tối">
+          <i class="fas fa-sun"></i>
+        </button>
+        <div class="status-indicator">
+          <div class="status-dot disconnected" id="statusDot"></div>
+          <span id="statusText">Chưa kết nối</span>
+        </div>
+        
+        <select class="baudrate-select" id="baudrateSelect" title="Chọn tốc độ Baudrate">
+          <option value="9600" selected>9600 Baud (Mặc định)</option>
+          <option value="115200">115200 Baud</option>
+          <option value="57600">57600 Baud</option>
+          <option value="19200">19200 Baud</option>
+        </select>
+        
+        <button class="btn" id="btnConnect">
+          <i class="fas fa-plug"></i> Kết nối Arduino
+        </button>
+      </div>
+    </header>
+
+    <!-- SYSTEM ALARM / WARNING BANNER -->
+    <section class="alert-banner level-1" id="alertBanner">
+      <div class="alert-info">
+        <div class="alert-badge-icon" id="alertBadgeIcon">
+          <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="alert-text-group">
+          <h2 id="alertLevelText">Chưa có kết nối</h2>
+          <p id="alertDescText">Hãy kết nối với thiết bị Arduino để bắt đầu nhận và phân tích dữ liệu cảm biến thời gian thực.</p>
+        </div>
+      </div>
+      
+      <div class="audio-control">
+        <button class="btn-audio muted" id="btnMute" title="Bật âm thanh báo động">
+          <i class="fas fa-volume-mute"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- MAIN DASHBOARD CONTENT GRID -->
+    <div class="dashboard-grid">
+      
+      <!-- 1. SOIL MOISTURE CARD -->
+      <section class="card" id="soilCard">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-tint"></i> Độ ẩm đất
+          </div>
+          <span class="card-badge">Cảm biến A0</span>
+        </div>
+        <div class="card-body">
+          <div class="gauge-container">
+            <svg class="gauge-svg" viewBox="0 0 160 160">
+              <circle class="gauge-bg" cx="80" cy="80" r="70"></circle>
+              <circle class="gauge-fill" id="soilGaugeFill" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <div class="gauge-value">
+              <div class="gauge-number" id="soilPercent">--%</div>
+              <div class="gauge-unit">Độ ẩm</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <div class="meta-label">Giá trị thô</div>
+            <div class="meta-val" id="soilVal">--</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Ngưỡng xói mòn</div>
+            <div class="meta-val" style="color: var(--color-level-3);">> 75%</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. RAINFALL DETECTOR CARD -->
+      <section class="card" id="rainCard">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-cloud-showers-water"></i> Lượng mưa
+          </div>
+          <span class="card-badge">Cảm biến A1</span>
+        </div>
+        <div class="card-body">
+          <div class="rain-display">
+            <i class="fas fa-cloud rain-icon-large" id="rainIcon"></i>
+            <span class="rain-status-text" id="rainStatus">CHƯA RÕ</span>
+          </div>
+          <div class="progress-bar-container" title="Cường độ mưa">
+            <div class="progress-bar-fill" id="rainProgressBar"></div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <div class="meta-label">Giá trị mưa thô</div>
+            <div class="meta-val" id="rainValue">--</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Trạng thái khô</div>
+            <div class="meta-val">> 800</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. TILT & MOVEMENT VIBRATION CARD -->
+      <section class="card" id="tiltCard">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-house-damage"></i> Rung lắc địa hình
+          </div>
+          <span class="card-badge">Pin 2 (Digital)</span>
+        </div>
+        <div class="card-body">
+          <div class="tilt-display">
+            <div class="tilt-count-box">
+              <div class="tilt-count-val" id="tiltCount">--</div>
+              <div class="tilt-count-label">Xung rung lắc / 5 giây</div>
+            </div>
+            <div class="tilt-status-badge" id="tiltStatus">CHƯA BẮT ĐẦU</div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <div class="meta-label">Bình thường</div>
+            <div class="meta-val" style="color: var(--color-level-1);">&lt; 15</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Nguy cơ sạt trượt</div>
+            <div class="meta-val" style="color: var(--color-level-4);">> 60</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. INTERACTIVE 2D TERRAIN VISUALIZATION -->
+      <section class="card col-span-1" id="visualizerCard">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-project-diagram"></i> Mô phỏng đồi dốc
+          </div>
+          <span class="card-badge">Tương tác trực quan</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="terrain-visualizer">
+            <!-- Rain dropping animations -->
+            <div class="rain-overlay" id="rainOverlay"></div>
+            
+            <!-- Slope graphics container -->
+            <div class="hill-container" id="hillContainer">
+              <!-- Slope soil -->
+              <div class="slope" id="slopeElement"></div>
+              <!-- Grass layer -->
+              <div class="slope-grass" id="slopeGrassElement"></div>
+              
+              <!-- Trees that lean/fall based on status -->
+              <div class="trees-group">
+                <div class="tree tree-1"></div>
+                <div class="tree tree-2"></div>
+                <div class="tree tree-3"></div>
+                <div class="tree tree-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. REAL-TIME CHART.JS PLOT -->
+      <section class="card col-span-2" id="chartCard">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-chart-line"></i> Đồ thị biến thiên thời gian thực
+          </div>
+          <span class="card-badge">Cập nhật mỗi 5 giây</span>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="historyChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. HISTORICAL LOG DATA TABLE -->
+      <section class="card col-span-3" id="logCard">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-list-alt"></i> Nhật ký hoạt động chi tiết
+          </div>
+          <button class="btn btn-audio" style="border-radius: 8px; width: auto; height: auto; padding: 0.5rem 1rem; font-size: 0.85rem;" id="btnExport">
+            <i class="fas fa-file-csv"></i> Xuất dữ liệu CSV (Excel)
+          </button>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Độ ẩm đất (Giá trị thô)</th>
+                  <th>Trạng thái mưa (Giá trị thô)</th>
+                  <th>Độ rung lắc (Trạng thái địa hình)</th>
+                  <th>Cấp độ cảnh báo</th>
+                </tr>
+              </thead>
+              <tbody id="logTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                    <i class="fas fa-database" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
+                    Chưa nhận được gói tin dữ liệu nào từ cổng Serial.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Link app.js script at the end -->
+  <script src="app.js"></script>
+</body>
+</html>

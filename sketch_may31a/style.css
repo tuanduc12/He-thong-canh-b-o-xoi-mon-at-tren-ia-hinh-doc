@@ -1,0 +1,1141 @@
+/* Imports Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* Color Variables & Base Styles */
+:root {
+  --bg-primary: #0a0b10;
+  --bg-secondary: #11131e;
+  --bg-card: rgba(20, 24, 38, 0.6);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(59, 130, 246, 0.15);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --primary: #3b82f6;
+  --primary-glow: rgba(59, 130, 246, 0.3);
+  
+  /* Alert Colors */
+  --color-level-1: #10b981; /* An toàn - Emerald Green */
+  --color-level-2: #f59e0b; /* Cần theo dõi - Amber */
+  --color-level-3: #f97316; /* Nguy cơ xói mòn - Orange */
+  --color-level-4: #ef4444; /* Nguy cơ sạt lở - Red */
+  
+  --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.03) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  padding: 2rem 1.5rem;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Header & Connectivity */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-main);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-icon {
+  font-size: 2.2rem;
+  color: var(--primary);
+  filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.logo-text h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-text p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.connection-panel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 99px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--text-muted);
+  box-shadow: 0 0 8px var(--text-muted);
+}
+
+.status-dot.connected {
+  background-color: var(--color-level-1);
+  box-shadow: 0 0 10px var(--color-level-1);
+  animation: pulse-green 2s infinite;
+}
+
+.status-dot.disconnected {
+  background-color: var(--color-level-4);
+  box-shadow: 0 0 10px var(--color-level-4);
+}
+
+.baudrate-select {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.baudrate-select:focus {
+  border-color: var(--primary);
+}
+
+.btn {
+  background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+  transition: var(--transition-normal);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-disconnect {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
+}
+
+.btn-disconnect:hover {
+  box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
+}
+
+/* System Alert Banner */
+.alert-banner {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-main);
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.alert-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.alert-badge-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  transition: var(--transition-normal);
+}
+
+.alert-text-group h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.alert-text-group p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.audio-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-audio {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: var(--transition-normal);
+}
+
+.btn-audio:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.btn-audio.muted {
+  color: var(--text-muted);
+}
+
+/* Alert States */
+.alert-banner.level-1 {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.05) 0%, var(--bg-card) 100%);
+}
+.alert-banner.level-1 .alert-badge-icon {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--color-level-1);
+}
+.alert-banner.level-1 h2 { color: var(--color-level-1); }
+
+.alert-banner.level-2 {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.05) 0%, var(--bg-card) 100%);
+}
+.alert-banner.level-2 .alert-badge-icon {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--color-level-2);
+}
+.alert-banner.level-2 h2 { color: var(--color-level-2); }
+
+.alert-banner.level-3 {
+  border-color: rgba(249, 115, 22, 0.5);
+  background: linear-gradient(90deg, rgba(249, 115, 22, 0.08) 0%, var(--bg-card) 100%);
+  animation: pulse-border-orange 1.5s infinite;
+}
+.alert-banner.level-3 .alert-badge-icon {
+  background: rgba(249, 115, 22, 0.2);
+  border-color: rgba(249, 115, 22, 0.4);
+  color: var(--color-level-3);
+  animation: pulse-icon 1.5s infinite;
+}
+.alert-banner.level-3 h2 { color: var(--color-level-3); }
+
+.alert-banner.level-4 {
+  border-color: rgba(239, 68, 68, 0.6);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(20, 24, 38, 0.8) 100%);
+  animation: pulse-bg-danger 1.2s infinite;
+}
+.alert-banner.level-4 .alert-badge-icon {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: var(--color-level-4);
+  animation: pulse-icon 1.2s infinite;
+}
+.alert-banner.level-4 h2 { 
+  color: var(--color-level-4); 
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Grid configurations */
+.col-span-2 {
+  grid-column: span 2;
+}
+
+.col-span-3 {
+  grid-column: span 3;
+}
+
+/* Cards Design */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-main);
+  transition: var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-title i {
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.card-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  color: var(--text-secondary);
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* Specific Card Layouts */
+/* 1. Soil Moisture Gauge */
+.gauge-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.gauge-svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.03);
+  stroke-width: 12;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 12;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out, stroke 1s ease;
+}
+
+.gauge-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.gauge-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.gauge-unit {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.card-meta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.meta-item {
+  text-align: center;
+  flex: 1;
+}
+
+.meta-item:not(:last-child) {
+  border-right: 1px solid var(--border-color);
+}
+
+.meta-label {
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.meta-val {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 2. Rain Card */
+.rain-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.rain-icon-large {
+  font-size: 3.5rem;
+  color: #38bdf8;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.2));
+  margin-bottom: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.rain-status-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8 0%, var(--primary) 100%);
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3. Tilt Card */
+.tilt-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+.tilt-count-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.tilt-count-val {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.tilt-count-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+.tilt-status-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-level-1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  transition: var(--transition-normal);
+}
+
+.tilt-status-badge.warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-level-2);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.tilt-status-badge.danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-level-4);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  animation: pulse-red-border 1s infinite;
+}
+
+/* Terrain Simulation Card */
+.terrain-visualizer {
+  height: 280px;
+  width: 100%;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #0e1220 0%, #06080e 100%);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Rain Animation Overlay in Visualizer */
+.rain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 2;
+}
+
+.rain-overlay.active-light {
+  opacity: 0.3;
+}
+.rain-overlay.active-medium {
+  opacity: 0.6;
+}
+.rain-overlay.active-heavy {
+  opacity: 0.95;
+}
+
+.rain-drop {
+  position: absolute;
+  background: linear-gradient(transparent, #38bdf8);
+  width: 1px;
+  height: 20px;
+  opacity: 0.7;
+  animation: rain-fall 0.8s linear infinite;
+}
+
+/* The Hill Slope */
+.hill-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  transition: transform 0.1s ease;
+}
+
+.hill-container.shake {
+  animation: hill-shake 0.3s infinite;
+}
+
+.slope {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #78350f 0%, #451a03 100%); /* Base Dirt Color */
+  clip-path: polygon(0 80%, 30% 60%, 75% 20%, 100% 20%, 100% 100%, 0% 100%);
+  transition: background 1s ease;
+}
+
+.slope-grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #15803d 0%, #166534 100%); /* Grass Color */
+  clip-path: polygon(0 80%, 30% 60%, 75% 20%, 100% 20%, 100% 28%, 75% 26%, 30% 63%, 0 83%);
+  transition: background 1s ease, clip-path 1s ease;
+  z-index: 1;
+}
+
+/* Vegetation elements (Trees) */
+.trees-group {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.tree {
+  position: absolute;
+  width: 16px;
+  height: 28px;
+  transform-origin: bottom center;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+/* Base shape of a tree */
+.tree::before {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 3px;
+  width: 10px;
+  height: 22px;
+  background: #166534;
+  clip-path: polygon(50% 0%, 0% 70%, 30% 70%, 10% 100%, 90% 100%, 70% 70%, 100% 70%);
+}
+
+.tree::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+  width: 2px;
+  height: 6px;
+  background: #78350f;
+}
+
+.tree-1 { left: 80%; bottom: 80%; }
+.tree-2 { left: 88%; bottom: 80%; }
+.tree-3 { left: 65%; bottom: 62%; }
+.tree-4 { left: 45%; bottom: 44%; }
+
+/* Tree states in landslide */
+.tree.tilt {
+  transform: rotate(25deg);
+}
+
+.tree.collapsed {
+  transform: rotate(85deg) translateY(4px);
+  opacity: 0.7;
+}
+
+/* Wet mud states */
+.slope.wet {
+  background: linear-gradient(135deg, #451a03 0%, #1c0a00 100%);
+}
+.slope.eroded {
+  background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%); /* Alarm red dirt */
+  clip-path: polygon(0 80%, 30% 70%, 70% 35%, 100% 20%, 100% 100%, 0% 100%) !important; /* Landslide collapse */
+}
+.slope-grass.eroded {
+  background: linear-gradient(135deg, #b45309 0%, #78350f 100%); /* Grass dies/washes away */
+  clip-path: polygon(0 80%, 30% 70%, 70% 35%, 100% 20%, 100% 25%, 70% 39%, 30% 73%, 0 83%) !important;
+}
+
+/* Chart Canvas Card */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+
+/* Log Table Card */
+.table-wrapper {
+  overflow-x: auto;
+  max-height: 300px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.4);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+th, td {
+  padding: 0.8rem 1rem;
+}
+
+th {
+  background-color: rgba(30, 41, 59, 0.8);
+  font-weight: 600;
+  color: var(--text-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border-color);
+}
+
+tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Level pills in logs */
+.log-level {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.log-level.level-1 { background: rgba(16, 185, 129, 0.15); color: var(--color-level-1); }
+.log-level.level-2 { background: rgba(245, 158, 11, 0.15); color: var(--color-level-2); }
+.log-level.level-3 { background: rgba(249, 115, 22, 0.15); color: var(--color-level-3); }
+.log-level.level-4 { background: rgba(239, 68, 68, 0.15); color: var(--color-level-4); }
+
+/* Setup & Documentation Card */
+.setup-guide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.guide-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.step-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.step-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.step-card p, .step-card li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.step-card ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.pin-badge {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.code-block-container {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.code-header {
+  background: #1e293b;
+  padding: 0.5rem 1rem;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.code-body {
+  background: #0f172a;
+  padding: 1rem;
+  border-radius: 0 0 8px 8px;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  max-height: 250px;
+}
+
+/* Animations Definitions */
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes pulse-icon {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 15px currentColor); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse-border-orange {
+  0% { border-color: rgba(249, 115, 22, 0.4); box-shadow: 0 0 0px rgba(249, 115, 22, 0); }
+  50% { border-color: rgba(249, 115, 22, 0.8); box-shadow: 0 0 15px rgba(249, 115, 22, 0.15); }
+  100% { border-color: rgba(249, 115, 22, 0.4); box-shadow: 0 0 0px rgba(249, 115, 22, 0); }
+}
+
+@keyframes pulse-bg-danger {
+  0% { background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(20, 24, 38, 0.8) 100%); border-color: rgba(239, 68, 68, 0.5); }
+  50% { background: linear-gradient(90deg, rgba(239, 68, 68, 0.25) 0%, rgba(20, 24, 38, 0.85) 100%); border-color: rgba(239, 68, 68, 0.9); box-shadow: 0 0 25px rgba(239, 68, 68, 0.25); }
+  100% { background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(20, 24, 38, 0.8) 100%); border-color: rgba(239, 68, 68, 0.5); }
+}
+
+@keyframes pulse-red-border {
+  0% { border-color: rgba(239, 68, 68, 0.2); }
+  50% { border-color: rgba(239, 68, 68, 0.6); box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+  100% { border-color: rgba(239, 68, 68, 0.2); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes rain-fall {
+  0% { transform: translateY(-30px); }
+  100% { transform: translateY(280px); }
+}
+
+@keyframes hill-shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(0px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  55% { transform: translate(-1px, 2px) rotate(-1deg); }
+  65% { transform: translate(-3px, 1px) rotate(0deg); }
+  75% { transform: translate(2px, 1px) rotate(-1deg); }
+  85% { transform: translate(-1px, -1px) rotate(1deg); }
+  95% { transform: translate(2px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .col-span-2 {
+    grid-column: span 2;
+  }
+  .col-span-3 {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.2rem;
+  }
+  .connection-panel {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .col-span-2, .col-span-3 {
+    grid-column: span 1;
+  }
+  .alert-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .audio-control {
+    align-self: flex-end;
+  }
+}
+
+/* ==========================================
+   LIGHT MODE STYLING OVERRIDES
+   ========================================== */
+
+/* Theme Toggle Button */
+.btn-theme {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  transition: var(--transition-normal);
+  margin-right: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-theme:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Light Mode Overrides */
+body.light-mode {
+  --bg-primary: #f1f5f9; /* Light Slate */
+  --bg-secondary: #e2e8f0;
+  --bg-card: rgba(255, 255, 255, 0.75); /* Clean white card */
+  --border-color: rgba(15, 23, 42, 0.08); /* Faint slate border */
+  --border-glow: rgba(59, 130, 246, 0.08);
+  
+  --text-primary: #0f172a; /* Dark Slate */
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --primary: #2563eb; /* Deep blue */
+  --primary-glow: rgba(37, 99, 235, 0.2);
+  
+  --shadow-main: 0 8px 32px 0 rgba(148, 163, 184, 0.12);
+  
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.02) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.02) 0px, transparent 50%);
+}
+
+body.light-mode .btn-theme {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+}
+
+body.light-mode .btn-theme:hover {
+  background: rgba(15, 23, 42, 0.1);
+  border-color: rgba(15, 23, 42, 0.15);
+}
+
+body.light-mode .logo-text h1 {
+  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .status-indicator {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+body.light-mode .baudrate-select {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+body.light-mode .baudrate-select:focus {
+  border-color: var(--primary);
+}
+
+body.light-mode .alert-banner {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+body.light-mode .alert-banner.level-1 {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.8) 100%);
+}
+body.light-mode .alert-banner.level-2 {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.1) 0%, rgba(255, 255, 255, 0.8) 100%);
+}
+body.light-mode .alert-banner.level-3 {
+  background: linear-gradient(90deg, rgba(249, 115, 22, 0.12) 0%, rgba(255, 255, 255, 0.8) 100%);
+}
+body.light-mode .alert-banner.level-4 {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+body.light-mode .btn-audio {
+  background: rgba(15, 23, 42, 0.05);
+  color: #0f172a;
+}
+body.light-mode .btn-audio:hover {
+  background: rgba(15, 23, 42, 0.1);
+}
+
+body.light-mode .gauge-bg {
+  stroke: rgba(15, 23, 42, 0.05);
+}
+
+body.light-mode .gauge-number {
+  color: #0f172a;
+}
+
+body.light-mode .rain-status-text {
+  color: #0f172a;
+}
+
+body.light-mode .progress-bar-container {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+body.light-mode .tilt-count-box {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+body.light-mode .tilt-count-val {
+  color: #0f172a;
+}
+
+/* Terrain visualizer daylight sky */
+body.light-mode .terrain-visualizer {
+  background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 100%);
+}
+
+body.light-mode .rain-drop {
+  background: linear-gradient(transparent, #0284c7);
+}
+
+body.light-mode .slope {
+  background: linear-gradient(135deg, #a16207 0%, #713f12 100%); /* Warm brown dirt */
+}
+
+body.light-mode .slope.wet {
+  background: linear-gradient(135deg, #713f12 0%, #451a03 100%);
+}
+
+body.light-mode .slope.eroded {
+  background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
+}
+
+body.light-mode .table-wrapper {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+body.light-mode th {
+  background-color: rgba(226, 232, 240, 0.9);
+  color: #475569;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-mode tr {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+body.light-mode tr:hover {
+  background-color: rgba(15, 23, 42, 0.02);
+}
